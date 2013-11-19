@@ -23,10 +23,10 @@ void RoadPreprocessor::preprocess(QString filename, const QVector2D &lonlat, con
 	reader.parse(source);
 
 	// 道路ネットワークをきれいにする
-	roads.reduce();
+	//roads.reduce();
 
 	// 立体交差を削除する
-	roads.solveCrossover();
+	//roads.solveCrossover();
 
 	//roads.check();
 

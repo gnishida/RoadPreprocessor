@@ -157,7 +157,7 @@ void RoadGraph::save(FILE* fp) {
 	int nEdges = boost::num_edges(graph);
 	fwrite(&nEdges, sizeof(int), 1, fp);
 
-	// 各エッジにつき、２つの頂点の各ID、道路タイプ、レーン数、ポリラインを構成するポイント数、各ポイントのX座標とY座標を出力する
+	// 各エッジにつき、２つの頂点の各ID、道路タイプ、レーン数、一方通行か、ポリラインを構成するポイント数、各ポイントのX座標とY座標を出力する
 	RoadEdgeIter ei, eend;
 	for (boost::tie(ei, eend) = boost::edges(graph); ei != eend; ++ei) {
 		RoadEdge* edge = graph[*ei];
@@ -173,6 +173,14 @@ void RoadGraph::save(FILE* fp) {
 
 		unsigned int lanes = edge->getNumLanes();
 		fwrite(&lanes, sizeof(unsigned int), 1, fp);
+
+		unsigned int oneWay;
+		if (edge->oneWay) {
+			oneWay = 1;
+		} else {
+			oneWay = 0;
+		}
+		fwrite(&oneWay, sizeof(unsigned int), 1, fp);
 
 		int nPoints = edge->getPolyLine().size();
 		fwrite(&nPoints, sizeof(int), 1, fp);
