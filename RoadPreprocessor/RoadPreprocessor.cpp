@@ -22,8 +22,8 @@ void RoadPreprocessor::preprocess(QString filename, const QVector2D &lonlat, con
 	QXmlInputSource source(&file);
 	reader.parse(source);
 
-	// 道路ネットワークをきれいにする
-	//roads.reduce();
+	// degreeが2の頂点は、全てエッジの一部にしちゃう。
+	roads.reduce();
 
 	// 立体交差を削除する
 	//roads.solveCrossover();
