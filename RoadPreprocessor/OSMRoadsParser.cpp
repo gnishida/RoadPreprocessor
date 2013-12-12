@@ -102,7 +102,7 @@ void OSMRoadsParser::handleTag(const QXmlAttributes &atts) {
 		if (value=="motorway"||value=="motorway_link"||value=="trunk" || value == "trunk_link") {
 			way.type = 3;
 		} else if (value=="primary" || value=="primary_link") {
-			way.type = 3;
+			way.type = 2;
 		} else if (value=="secondary"||value=="secondary_link") {
 			way.type = 2;
 		} else if (value=="tertiary"||value=="tertiary_link") {
