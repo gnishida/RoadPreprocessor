@@ -9,27 +9,18 @@
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/topological_sort.hpp>
 #include <boost/graph/graph_utility.hpp>
+#include <boost/shared_ptr.hpp>
 
 using namespace boost;
 
 
-typedef adjacency_list<vecS, vecS, undirectedS, RoadVertex*, RoadEdge*> BGLGraph;
+typedef adjacency_list<vecS, vecS, undirectedS, RoadVertexPtr, RoadEdgePtr> BGLGraph;
 typedef graph_traits<BGLGraph>::vertex_descriptor RoadVertexDesc;
 typedef graph_traits<BGLGraph>::edge_descriptor RoadEdgeDesc;
 typedef graph_traits<BGLGraph>::vertex_iterator RoadVertexIter;
 typedef graph_traits<BGLGraph>::edge_iterator RoadEdgeIter;
 typedef graph_traits<BGLGraph>::out_edge_iterator RoadOutEdgeIter;
 typedef graph_traits<BGLGraph>::in_edge_iterator RoadInEdgeIter;
-
-typedef struct {
-	float location[3];
-	float tex[2];
-	float normal[3];
-	float color[4];
-	char padding[16];
-} Vertex;
-
-class RoadStyle;
 
 class RoadGraph {
 public:
@@ -38,18 +29,8 @@ public:
 public:
 	RoadGraph();
 
-	RoadVertexDesc addVertex(RoadVertex* vertex);
-	bool reduceVertex(RoadVertexDesc desc);
-	RoadEdgeDesc addEdge(RoadVertexDesc v1, RoadVertexDesc v2, RoadEdge* edge);
-	bool isRedundant(RoadVertexDesc desc, const QVector3D &dir, float threshold);
-
 	void clear();
-	void reduce();
-	void save(FILE* fp);
-	void solveCrossover();
-	bool solveOneCrossover();
-	RoadVertexDesc splitEdgeAt(RoadEdgeDesc desc, int index);
-	RoadVertexDesc splitEdgeAt(RoadEdgeDesc desc, int index, RoadVertexDesc v);
-	void check();
+	void setModified() {}
 };
 
+typedef boost::shared_ptr<RoadGraph> RoadGraphPtr;

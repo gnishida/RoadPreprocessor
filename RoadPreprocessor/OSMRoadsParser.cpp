@@ -2,6 +2,7 @@
 #include "RoadVertex.h"
 #include "RoadEdge.h"
 #include "BBox2D.h"
+#include "GraphUtil.h"
 #include "Util.h"
 #include <vector>
 #include <iostream>
@@ -54,9 +55,6 @@ void OSMRoadsParser::handleNode(const QXmlAttributes &atts) {
 
 	// マップの範囲外なら、無視する
 	if (!range.contains(pos)) return;
-
-	// 頂点ID -> 実際の頂点ID 変換テーブルに追加
-	idToActualId.insert(id, id);
 
 	// 頂点リストに追加
 	vertices.insert(id, RoadVertex(pos));
@@ -120,32 +118,27 @@ void OSMRoadsParser::createRoadEdge() {
 		uint id = way.nds[k];
 		uint next = way.nds[k + 1];
 
-		// 対象となる道路セグメントの両端の頂点がリストに登録済みであること！
-		if (!idToActualId.contains(id)) continue;
-		if (!idToActualId.contains(next)) continue;
-
 		RoadVertexDesc sourceDesc;
-		if (idToDesc.contains(idToActualId[id])) {		// 既にBGLに登録済みなら、BGLから該当頂点のdescを取得
-			sourceDesc = idToDesc[idToActualId[id]];
+		if (idToDesc.contains(id)) {		// 既にBGLに登録済みなら、BGLから該当頂点のdescを取得
+			sourceDesc = idToDesc[id];
 		} else {										// 未登録なら、BGLに該当頂点を追加
-			RoadVertex* v = new RoadVertex(vertices[idToActualId[id]].getPt());
-			sourceDesc = roads->addVertex(v);
-			idToDesc.insert(idToActualId[id], sourceDesc);
+			RoadVertexPtr v = RoadVertexPtr(new RoadVertex(vertices[id].getPt()));
+			sourceDesc = GraphUtil::addVertex(*roads, v);
+			//sourceDesc = roads->addVertex(v);
+			idToDesc.insert(id, sourceDesc);
 		}
 
 		RoadVertexDesc destDesc;
-		if (idToDesc.contains(idToActualId[next])) {	// 既にBGLに登録済みなら、BGLから該当頂点のdescを取得
-			destDesc = idToDesc[idToActualId[next]];
+		if (idToDesc.contains(next)) {	// 既にBGLに登録済みなら、BGLから該当頂点のdescを取得
+			destDesc = idToDesc[next];
 		} else {										// 未登録なら、BGLに該当頂点を追加
-			RoadVertex* v = new RoadVertex(vertices[idToActualId[next]].getPt());
-			destDesc = roads->addVertex(v);
-			idToDesc.insert(idToActualId[next], destDesc);
+			RoadVertexPtr v = RoadVertexPtr(new RoadVertex(vertices[next].getPt()));
+			destDesc = GraphUtil::addVertex(*roads, v);
+			//destDesc = roads->addVertex(v);
+			idToDesc.insert(next, destDesc);
 		}
 
 		// 道路セグメントをBGLに追加
-		RoadEdge* e = new RoadEdge(way.oneWay, way.lanes, way.type);
-		e->addPoint(vertices[idToActualId[id]].getPt());
-		e->addPoint(vertices[idToActualId[next]].getPt());
-		roads->addEdge(sourceDesc, destDesc, e);
+		GraphUtil::addEdge(*roads, sourceDesc, destDesc, way.type, way.lanes, way.oneWay);
 	}
 }

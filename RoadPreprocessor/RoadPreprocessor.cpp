@@ -3,6 +3,7 @@
 #include "RoadGraph.h"
 #include "RoadVertex.h"
 #include "RoadEdge.h"
+#include "GraphUtil.h"
 #include <qfile.h>
 #include <qdom.h>
 #include <iostream>
@@ -23,11 +24,10 @@ void RoadPreprocessor::preprocess(QString filename, const QVector2D &lonlat, con
 	reader.parse(source);
 
 	// degreeが2の頂点は、全てエッジの一部にしちゃう。
-	//roads.reduce();
+	GraphUtil::reduce(roads);
 
 	// write OSM file
 	QString output = filename.split("/").last().split(".").at(0) + ".gsm";
-	FILE* fp = fopen(output.toUtf8().data(), "wb");
-	roads.save(fp);
+	GraphUtil::saveRoads(roads, output);
 }
 

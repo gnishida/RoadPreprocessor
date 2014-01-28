@@ -1,7 +1,8 @@
 #pragma once
 
-#include <qvector2d.h>
+#include <QVector2D>
 #include <vector>
+#include <boost/shared_ptr.hpp>
 
 class RoadEdge {
 public:
@@ -9,20 +10,20 @@ public:
 	unsigned int lanes;
 	unsigned int type;
 	std::vector<QVector2D> polyLine;
+	float importance;
+
+	bool valid;			// if this edge is valid
+	bool seed;			// if this edge is used as a seed of a forest
+	int group;			// to which tree in the forest this edge belongs to
+	bool fullyPaired;	// if this edge has a corresponding edge
 
 public:
-	RoadEdge(bool oneWay, int numLanes, int typeRoad);
+	RoadEdge(int type, int lanes, bool oneWay);
 	~RoadEdge();
 	
-	int getNumLanes();
 	float getLength();
-	int getType();
-	std::vector<QVector2D>& getPolyLine();
 
 	void addPoint(const QVector2D &pt);
-	float getWidth();
-
-	void startFrom(QVector2D start);
-	bool containsPoint(const QVector2D &pos);
 };
 
+typedef boost::shared_ptr<RoadEdge> RoadEdgePtr;

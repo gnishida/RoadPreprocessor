@@ -129,3 +129,38 @@ bool Util::segmentSegmentIntersectXY(const QVector2D& a, const QVector2D& b, con
 	intPoint = a+(*tab)*dirVec;
 	return true;
 }
+
+/**
+ * Compute the distance between the edge A-B and the edge C-D. Store the coordinate of the closest point in closestPtInAB.
+ */
+float Util::pointSegmentDistanceXY(const QVector2D& a, const QVector2D& b, const QVector2D& c, QVector2D& closestPtInAB) {
+	float dist;		
+
+	float r_numerator = (c.x()-a.x())*(b.x()-a.x()) + (c.y()-a.y())*(b.y()-a.y());
+	float r_denomenator = (b.x()-a.x())*(b.x()-a.x()) + (b.y()-a.y())*(b.y()-a.y());
+	float r = r_numerator / r_denomenator;
+	//
+	float px = a.x() + r*(b.x()-a.x());
+	float py = a.y() + r*(b.y()-a.y());
+	//    
+	float s =  ((a.y()-c.y())*(b.x()-a.x())-(a.x()-c.x())*(b.y()-a.y()) ) / r_denomenator;
+
+	float distanceLine = fabs(s)*sqrt(r_denomenator);
+
+	closestPtInAB.setX(px);
+	closestPtInAB.setY(py);
+
+	if ((r >= 0) && (r <= 1)) {
+		dist = distanceLine;
+	} else {
+		float dist1 = (c.x()-a.x())*(c.x()-a.x()) + (c.y()-a.y())*(c.y()-a.y());
+		float dist2 = (c.x()-b.x())*(c.x()-b.x()) + (c.y()-b.y())*(c.y()-b.y());
+		if (dist1 < dist2) {	
+			dist = sqrt(dist1);
+		} else {
+			dist = sqrt(dist2);
+		}
+	}
+
+	return abs(dist);
+}
