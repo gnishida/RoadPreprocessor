@@ -24,7 +24,8 @@ void RoadPreprocessor::preprocess(QString filename, const QVector2D &lonlat, con
 	reader.parse(source);
 
 	// degreeが2の頂点は、全てエッジの一部にしちゃう。
-	GraphUtil::reduce(roads);
+	//GraphUtil::clean(roads);
+	//GraphUtil::reduce(roads);
 
 	// write OSM file
 	QString output = filename.split("/").last().split(".").at(0) + ".gsm";
