@@ -56,6 +56,8 @@ void OSMRoadsParser::handleNode(const QXmlAttributes &atts) {
 	// マップの範囲外なら、無視する
 	if (!range.contains(pos)) return;
 
+	idToActualId.insert(id, id);
+
 	// 頂点リストに追加
 	vertices.insert(id, RoadVertex(pos));
 }
@@ -118,13 +120,16 @@ void OSMRoadsParser::createRoadEdge() {
 		uint id = way.nds[k];
 		uint next = way.nds[k + 1];
 
+		// 対象となる道路セグメントの両端の頂点がリストに登録済みであること！
+		if (!idToActualId.contains(id)) continue;
+		if (!idToActualId.contains(next)) continue;
+
 		RoadVertexDesc sourceDesc;
 		if (idToDesc.contains(id)) {		// 既にBGLに登録済みなら、BGLから該当頂点のdescを取得
 			sourceDesc = idToDesc[id];
 		} else {										// 未登録なら、BGLに該当頂点を追加
 			RoadVertexPtr v = RoadVertexPtr(new RoadVertex(vertices[id].getPt()));
 			sourceDesc = GraphUtil::addVertex(*roads, v);
-			//sourceDesc = roads->addVertex(v);
 			idToDesc.insert(id, sourceDesc);
 		}
 
@@ -134,7 +139,6 @@ void OSMRoadsParser::createRoadEdge() {
 		} else {										// 未登録なら、BGLに該当頂点を追加
 			RoadVertexPtr v = RoadVertexPtr(new RoadVertex(vertices[next].getPt()));
 			destDesc = GraphUtil::addVertex(*roads, v);
-			//destDesc = roads->addVertex(v);
 			idToDesc.insert(next, destDesc);
 		}
 

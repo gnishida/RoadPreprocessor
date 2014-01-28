@@ -34,6 +34,7 @@ private:
 
 	/** temporary node list */
 	QMap<uint, RoadVertexDesc> idToDesc;
+	QMap<uint, uint> idToActualId;
 	QMap<uint, RoadVertex> vertices;
 
 public:
