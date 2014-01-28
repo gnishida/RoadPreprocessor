@@ -6,8 +6,6 @@
 #include <vector>
 #include <iostream>
 
-#define	THRESHOLD_CLOSE		5.0f
-
 OSMRoadsParser::OSMRoadsParser(RoadGraph *roads, const QVector2D &lonlat, const BBox2D &range) {
 	this->roads = roads;
 	this->centerLonLat = lonlat;
@@ -57,24 +55,11 @@ void OSMRoadsParser::handleNode(const QXmlAttributes &atts) {
 	// マップの範囲外なら、無視する
 	if (!range.contains(pos)) return;
 
-	// 既に読み込み済みの頂点と近すぎないか、チェック
-	bool duplicated = false;
-	QMap<uint, RoadVertex>::iterator it;
-	for (it = vertices.begin(); it != vertices.end(); it++) {
-		if ((it.value().getPt() - pos).lengthSquared() < THRESHOLD_CLOSE * THRESHOLD_CLOSE) {
-			idToActualId.insert(id, it.key());
-			duplicated = true;
-			break;
-		}
-	}
+	// 頂点ID -> 実際の頂点ID 変換テーブルに追加
+	idToActualId.insert(id, id);
 
-	if (!duplicated) {
-		// 頂点ID -> 実際の頂点ID 変換テーブルに追加
-		idToActualId.insert(id, id);
-
-		// 頂点リストに追加
-		vertices.insert(id, RoadVertex(pos));
-	}
+	// 頂点リストに追加
+	vertices.insert(id, RoadVertex(pos));
 }
 
 void OSMRoadsParser::handleWay(const QXmlAttributes &atts) {
@@ -157,40 +142,10 @@ void OSMRoadsParser::createRoadEdge() {
 			idToDesc.insert(idToActualId[next], destDesc);
 		}
 
-		// 道路セグメントの両端が同一頂点なら、無視
-		if (sourceDesc == destDesc) continue;
-
-		// 当該２頂点の間に既にエッジがある場合は、無視
-
-
-		// 道路セグメントの方向が、両端頂点から出ている他の道路の方向と近すぎる場合は、無視
-		if (roads->isRedundant(sourceDesc, vertices[idToActualId[next]].getPt() - vertices[idToActualId[id]].getPt(), 0.01f)) {
-			continue;
-		}
-		if (roads->isRedundant(destDesc, vertices[idToActualId[id]].getPt() - vertices[idToActualId[next]].getPt(), 0.01f)) {
-			continue;
-		}
-
-		// 対象となる道路セグメントの両端の頂点を使った道路セグメントが既にBGLに登録済みかどうか、チェック
-		bool duplicated = false;
-		RoadEdgeIter ei, eend;
-		for (boost::tie(ei, eend) = boost::edges(roads->graph); ei != eend; ++ei) {
-			if (boost::source(*ei, roads->graph) == sourceDesc && boost::target(*ei, roads->graph) == destDesc) {
-				duplicated = true;
-				break;
-			}
-			if (boost::source(*ei, roads->graph) == destDesc && boost::target(*ei, roads->graph) == sourceDesc) {
-				duplicated = true;
-				break;
-			}
-		}
-
-		if (!duplicated) {
-			// 道路セグメントをBGLに追加
-			RoadEdge* e = new RoadEdge(way.oneWay, way.lanes, way.type);
-			e->addPoint(vertices[idToActualId[id]].getPt());
-			e->addPoint(vertices[idToActualId[next]].getPt());
-			roads->addEdge(sourceDesc, destDesc, e);
-		}
+		// 道路セグメントをBGLに追加
+		RoadEdge* e = new RoadEdge(way.oneWay, way.lanes, way.type);
+		e->addPoint(vertices[idToActualId[id]].getPt());
+		e->addPoint(vertices[idToActualId[next]].getPt());
+		roads->addEdge(sourceDesc, destDesc, e);
 	}
 }
