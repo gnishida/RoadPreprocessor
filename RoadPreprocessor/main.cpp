@@ -1,14 +1,12 @@
-#include "MapRange.h"
-#include "BBox2D.h"
+﻿#include "BBox2D.h"
 #include "RoadPreprocessor.h"
 #include "RoadGraph.h"
 #include <vector>
 #include <iostream>
-#include <qvector2d.h>
-#include <qfile.h>
-#include <qtextstream.h>
-#include <qstring.h>
-#include <qstringlist.h>
+#include <QVector2D>
+#include <QFile>
+#include <QString>
+#include <time.h>
 
 using namespace std;
 
@@ -28,6 +26,9 @@ int main(int argc, char** argv) {
 		return 1;
 	}
 
+	// タイマー計測開始
+	time_t start = clock();
+
 	float longitude = atof(argv[2]);
 	float latitude = atof(argv[3]);
 	int width = atoi(argv[4]);
@@ -35,6 +36,11 @@ int main(int argc, char** argv) {
 
 	RoadPreprocessor rp;
 	rp.preprocess(argv[1], QVector2D(longitude, latitude), BBox2D(QVector2D(-width/2, -height/2), QVector2D(width/2, height/2)));
+
+	// タイマー計測終了
+	time_t end = clock();
+
+	std::cout << "Elapsed: " << (double)(end-start)/CLOCKS_PER_SEC << " [sec]" << std::endl;
 
 	return 0;
 }
