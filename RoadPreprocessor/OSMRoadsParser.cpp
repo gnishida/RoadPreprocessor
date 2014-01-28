@@ -8,12 +8,11 @@
 
 #define	THRESHOLD_CLOSE		5.0f
 
-OSMRoadsParser::OSMRoadsParser(RoadGraph *roads, const QVector2D &lonlat, const BBox2D &range, int roadType) {
+OSMRoadsParser::OSMRoadsParser(RoadGraph *roads, const QVector2D &lonlat, const BBox2D &range) {
 	this->roads = roads;
 	this->centerLonLat = lonlat;
 	this->centerPos = Util::projLatLonToMeter(lonlat, lonlat);
 	this->range = range;
-	this->roadType = roadType;
 
 	way.parentNodeName = "osm";
 }
@@ -53,9 +52,9 @@ bool OSMRoadsParser::endElement(const QString& namespaceURI, const QString& loca
 
 void OSMRoadsParser::handleNode(const QXmlAttributes &atts) {
 	uint id = atts.value("id").toUInt();
-	QVector2D pos = Util::projLatLonToMeter(atts.value("lon").toFloat(), atts.value("lat").toFloat(), centerLonLat) - centerPos;
+	QVector2D pos = Util::projLatLonToMeter(atts.value("lon").toDouble(), atts.value("lat").toDouble(), centerLonLat) - centerPos;
 
-	// マップの範囲がなら、無視する
+	// マップの範囲外なら、無視する
 	if (!range.contains(pos)) return;
 
 	// 既に読み込み済みの頂点と近すぎないか、チェック
@@ -131,9 +130,6 @@ void OSMRoadsParser::handleTag(const QXmlAttributes &atts) {
 
 void OSMRoadsParser::createRoadEdge() {
 	if (!way.isStreet || way.type == 0) return;
-
-	// 指定された道路タイプ以外は、棄却する
-	if (!((int)powf(2, (way.type - 1)) & roadType)) return;
 
 	for (int k = 0; k < way.nds.size() - 1; k++) {
 		uint id = way.nds[k];

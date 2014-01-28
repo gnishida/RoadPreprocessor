@@ -10,10 +10,10 @@
 RoadPreprocessor::RoadPreprocessor() {
 }
 
-void RoadPreprocessor::preprocess(QString filename, const QVector2D &lonlat, const BBox2D &range, int roadType) {
+void RoadPreprocessor::preprocess(QString filename, const QVector2D &lonlat, const BBox2D &range) {
 	RoadGraph roads;
 
-	OSMRoadsParser parser(&roads, lonlat, range, roadType);
+	OSMRoadsParser parser(&roads, lonlat, range);
 
 	// read OSM file
 	QXmlSimpleReader reader;

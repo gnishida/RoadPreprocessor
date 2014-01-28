@@ -29,7 +29,6 @@ private:
 	QVector2D centerLonLat;
 	QVector2D centerPos;
 	BBox2D range;
-	int roadType;
 
 	RoadGraph* roads;
 
@@ -46,7 +45,7 @@ public:
 	std::vector<RoadEdge*> edges;
 
 public:
-	OSMRoadsParser(RoadGraph *roads, const QVector2D &lonlat, const BBox2D &range, int roadType);
+	OSMRoadsParser(RoadGraph *roads, const QVector2D &lonlat, const BBox2D &range);
 
 	bool startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &atts);
 	bool characters(const QString &ch_in);

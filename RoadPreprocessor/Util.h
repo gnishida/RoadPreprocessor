@@ -10,7 +10,7 @@ protected:
 public:
 	static float pointSegmentDistanceXY(const QVector2D &a, const QVector2D &b, const QVector2D &c);
 	static QVector2D projLatLonToMeter(const QVector2D &latLon, const QVector2D &centerLatLon);
-	static QVector2D projLatLonToMeter(float longitude, float latitude, const QVector2D &centerLatLon);
+	static QVector2D projLatLonToMeter(double longitude, double latitude, const QVector2D &centerLatLon);
 	static bool segmentSegmentIntersectXY(const QVector2D& a, const QVector2D& b, const QVector2D& c, const QVector2D& d, float *tab, float *tcd, bool segmentOnly, QVector2D &intPoint);
 };
 

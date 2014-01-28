@@ -13,7 +13,7 @@ class RoadPreprocessor {
 public:
 	RoadPreprocessor();
 
-	void preprocess(QString filename, const QVector2D &lonlat, const BBox2D &range, int roadType);
+	void preprocess(QString filename, const QVector2D &lonlat, const BBox2D &range);
 
 private:
 	void writeGSM(FILE* fp, RoadGraph *roads);

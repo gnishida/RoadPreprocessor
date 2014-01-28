@@ -1,10 +1,13 @@
 #include "Util.h"
-#define _USE_MATH_DEFINES
 #include <math.h>
 
 const float MTC_FLOAT_TOL = 1e-6f;
 
 #define SQR(x)		((x) * (x))
+
+#ifndef M_PI
+#define M_PI	3.141592653589793238
+#endif
 
 /**
  * Return the sistance from segment ab to point c.
@@ -43,11 +46,11 @@ float Util::pointSegmentDistanceXY(const QVector2D &a, const QVector2D &b, const
 QVector2D Util::projLatLonToMeter(const QVector2D &latLon, const QVector2D &centerLatLon) {
 	QVector2D result;
 
-	float y = latLon.y() / 180.0f * M_PI;
-	float dx = (latLon.x() - centerLatLon.x()) / 180.0f * M_PI;
-	float dy = (latLon.y() - centerLatLon.y()) / 180.0f * M_PI;
+	double y = latLon.y() / 180 * M_PI;
+	double dx = (latLon.x() - centerLatLon.x()) / 180 * M_PI;
+	double dy = (latLon.y() - centerLatLon.y()) / 180 * M_PI;
 
-	float radius = 6378137.0f;;
+	double radius = 6378137;
 
 	result.setX(radius * cos(y) * dx);
 	result.setY(radius * dy);
@@ -55,14 +58,14 @@ QVector2D Util::projLatLonToMeter(const QVector2D &latLon, const QVector2D &cent
 	return  result; 
 }
 
-QVector2D Util::projLatLonToMeter(float longitude, float latitude, const QVector2D &centerLatLon) {
+QVector2D Util::projLatLonToMeter(double longitude, double latitude, const QVector2D &centerLatLon) {
 	QVector2D result;
 
-	float y = latitude / 180.0f * M_PI;
-	float dx = (longitude - centerLatLon.x()) / 180.0f * M_PI;
-	float dy = (latitude - centerLatLon.y()) / 180.0f * M_PI;
+	double y = latitude / 180 * M_PI;
+	double dx = (longitude - centerLatLon.x()) / 180 * M_PI;
+	double dy = (latitude - centerLatLon.y()) / 180 * M_PI;
 
-	float radius = 6378137.0f;;
+	double radius = 6378137;
 
 	result.setX(radius * cos(y) * dx);
 	result.setY(radius * dy);

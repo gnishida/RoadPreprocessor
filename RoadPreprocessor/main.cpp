@@ -17,14 +17,8 @@ using namespace std;
  * argv[2]	the file name that contains the ranges of the latitude and longitude
  */
 int main(int argc, char** argv) {
-	if (argc < 7) {
-		cerr << "Usage: RoadPreprocessor <OSM file> <longitude> <latitude> <width> <height> <road type>" << endl;
-		cerr << "Road type is specified in the following way:" << endl;
-		cerr << "  1 : streets" << endl;
-		cerr << "  2 : avenues" << endl;
-		cerr << "  4 : highways" << endl;
-		cerr << "You can add the numbers to specified the multiple types of roads." << endl;
-		cerr << "For instance, 3 means both streets and avenues." << endl;
+	if (argc < 6) {
+		cerr << "Usage: RoadPreprocessor <OSM file> <longitude> <latitude> <width> <height>" << endl;
 		return 1;
 	}
 
@@ -38,10 +32,9 @@ int main(int argc, char** argv) {
 	float latitude = atof(argv[3]);
 	int width = atoi(argv[4]);
 	int height = atoi(argv[5]);
-	int roadType = atoi(argv[6]);
 
 	RoadPreprocessor rp;
-	rp.preprocess(argv[1], QVector2D(longitude, latitude), BBox2D(QVector2D(-width/2, -height/2), QVector2D(width/2, height/2)), roadType);
+	rp.preprocess(argv[1], QVector2D(longitude, latitude), BBox2D(QVector2D(-width/2, -height/2), QVector2D(width/2, height/2)));
 
 	return 0;
 }
