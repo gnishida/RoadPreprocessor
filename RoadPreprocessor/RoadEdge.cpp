@@ -1,10 +1,12 @@
 #include "RoadEdge.h"
 #include "Util.h"
 
-RoadEdge::RoadEdge(int type, int lanes, bool oneWay) {
+RoadEdge::RoadEdge(int type, int lanes, bool oneWay, bool link, bool roundabout) {
 	this->type = type;
 	this->lanes = lanes;
 	this->oneWay = oneWay;
+	this->link = link;
+	this->roundabout = roundabout;
 
 	this->valid = true;
 	this->importance = 0.0f;

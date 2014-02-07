@@ -14,6 +14,8 @@ typedef struct {
 	uint way_id;
 	bool isStreet;
 	bool oneWay;
+	bool link;
+	bool roundabout;
 	bool bridge;
 	uint lanes;
 	uint type;

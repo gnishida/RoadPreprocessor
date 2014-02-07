@@ -6,9 +6,11 @@
 
 class RoadEdge {
 public:
-	bool oneWay;
-	unsigned int lanes;
 	unsigned int type;
+	unsigned int lanes;
+	bool oneWay;
+	bool link;
+	bool roundabout;
 	std::vector<QVector2D> polyLine;
 	float importance;
 
@@ -18,7 +20,7 @@ public:
 	bool fullyPaired;	// if this edge has a corresponding edge
 
 public:
-	RoadEdge(int type, int lanes, bool oneWay);
+	RoadEdge(int type, int lanes, bool oneWay = false, bool link = false, bool roundabout = false);
 	~RoadEdge();
 	
 	float getLength();

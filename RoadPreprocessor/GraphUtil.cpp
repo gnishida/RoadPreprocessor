@@ -433,11 +433,11 @@ int GraphUtil::getNumEdges(RoadGraph& roads, bool onlyValidEdge) {
  * Add an edge.
  * This function creates a straight line of edge.
  */
-RoadEdgeDesc GraphUtil::addEdge(RoadGraph& roads, RoadVertexDesc src, RoadVertexDesc tgt, unsigned int type, unsigned int lanes, bool oneWay) {
+RoadEdgeDesc GraphUtil::addEdge(RoadGraph& roads, RoadVertexDesc src, RoadVertexDesc tgt, unsigned int type, unsigned int lanes, bool oneWay, bool link, bool roundabout) {
 	roads.setModified();
 
 	// エッジを新規追加する
-	RoadEdgePtr e = RoadEdgePtr(new RoadEdge(type, lanes, oneWay));
+	RoadEdgePtr e = RoadEdgePtr(new RoadEdge(type, lanes, oneWay, link, roundabout));
 	e->addPoint(roads.graph[src]->getPt());
 	e->addPoint(roads.graph[tgt]->getPt());
 
@@ -793,7 +793,7 @@ RoadVertexDesc GraphUtil::splitEdge(RoadGraph* roads, RoadEdgeDesc edge_desc, co
 	roads->graph[v_desc] = v;
 
 	// add the first edge
-	RoadEdgePtr e1 = RoadEdgePtr(new RoadEdge(edge->type, edge->lanes, edge->oneWay));
+	RoadEdgePtr e1 = RoadEdgePtr(new RoadEdge(edge->type, edge->lanes, edge->oneWay, edge->link, edge->roundabout));
 	if ((edge->polyLine[0] - roads->graph[src]->pt).lengthSquared() < (edge->polyLine[0] - roads->graph[tgt]->pt).lengthSquared()) {
 		for (int i = 0; i <= index; i++) {
 			e1->addPoint(edge->polyLine[i]);
@@ -809,7 +809,7 @@ RoadVertexDesc GraphUtil::splitEdge(RoadGraph* roads, RoadEdgeDesc edge_desc, co
 	roads->graph[edge_pair1.first] = e1;
 
 	// add the second edge
-	RoadEdgePtr e2 = RoadEdgePtr(new RoadEdge(edge->type, edge->lanes, edge->oneWay));
+	RoadEdgePtr e2 = RoadEdgePtr(new RoadEdge(edge->type, edge->lanes, edge->oneWay, edge->link, edge->roundabout));
 	if ((edge->polyLine[0] - roads->graph[src]->pt).lengthSquared() < (edge->polyLine[0] - roads->graph[tgt]->pt).lengthSquared()) {
 		e2->addPoint(pos);
 		for (int i = index + 1; i < edge->polyLine.size(); i++) {
@@ -990,6 +990,8 @@ void GraphUtil::loadRoads(RoadGraph& roads, const QString& filename, int roadTyp
 		fread(&edge->type, sizeof(unsigned int), 1, fp);
 		fread(&edge->lanes, sizeof(unsigned int), 1, fp);
 		fread(&edge->oneWay, sizeof(unsigned int), 1, fp);
+		fread(&edge->link, sizeof(unsigned int), 1, fp);
+		fread(&edge->roundabout, sizeof(unsigned int), 1, fp);
 
 		unsigned int nPoints;
 		fread(&nPoints, sizeof(unsigned int), 1, fp);
@@ -1056,6 +1058,7 @@ void GraphUtil::saveRoads(RoadGraph& roads, const QString& filename) {
 		unsigned int lanes = edge->lanes;
 		fwrite(&lanes, sizeof(unsigned int), 1, fp);
 
+		// oneWay? (1 / 0)
 		unsigned int oneWay;
 		if (edge->oneWay) {
 			oneWay = 1;
@@ -1063,6 +1066,24 @@ void GraphUtil::saveRoads(RoadGraph& roads, const QString& filename) {
 			oneWay = 0;
 		}
 		fwrite(&oneWay, sizeof(unsigned int), 1, fp);
+
+		// link? (1 / 0)
+		unsigned int link;
+		if (edge->link) {
+			link = 1;
+		} else {
+			link = 0;
+		}
+		fwrite(&link, sizeof(unsigned int), 1, fp);
+
+		// roundabout? (1 / 0)
+		unsigned int roundabout;
+		if (edge->roundabout) {
+			roundabout = 1;
+		} else {
+			roundabout = 0;
+		}
+		fwrite(&roundabout, sizeof(unsigned int), 1, fp);
 
 		int nPoints = edge->polyLine.size();
 		fwrite(&nPoints, sizeof(int), 1, fp);
@@ -1881,7 +1902,7 @@ bool GraphUtil::reduce(RoadGraph& roads, RoadVertexDesc desc) {
 	// If the vertices form a triangle, don't remove it.
 	//if (hasEdge(roads, vd[0], vd[1])) return false;
 
-	RoadEdgePtr new_edge = RoadEdgePtr(new RoadEdge(edges[0]->type, edges[0]->lanes, edges[0]->oneWay));
+	RoadEdgePtr new_edge = RoadEdgePtr(new RoadEdge(edges[0]->type, edges[0]->lanes, edges[0]->oneWay, edges[0]->link, edges[0]->roundabout));
 	orderPolyLine(roads, ed[0], vd[0]);
 	orderPolyLine(roads, ed[1], desc);
 	

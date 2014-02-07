@@ -67,6 +67,8 @@ void OSMRoadsParser::handleWay(const QXmlAttributes &atts) {
 
 	way.isStreet = false;
 	way.oneWay = false;
+	way.link = false;
+	way.roundabout = false;
 	way.bridge = false;
 	way.lanes = 1;
 	way.type = 1;
@@ -83,20 +85,37 @@ void OSMRoadsParser::handleTag(const QXmlAttributes &atts) {
 	if (key == "highway") {
 		QString value = atts.value("v");
 		way.isStreet = true;
-		if (value=="motorway"||value=="motorway_link"||value=="trunk" || value == "trunk_link") {
+		if (value=="motorway" || value=="motorway_link" || value=="trunk") {
 			way.type = 3;
-		} else if (value=="primary" || value=="primary_link") {
+		} else if (value == "trunk_link") {
+			way.type = 3;
+			way.link = true;
+		} else if (value=="primary") {
 			way.type = 2;
-		} else if (value=="secondary"||value=="secondary_link") {
+		} else if (value=="primary_link") {
 			way.type = 2;
-		} else if (value=="tertiary"||value=="tertiary_link") {
+			way.link = true;
+		} else if (value=="secondary") {
 			way.type = 2;
-		} else if (value=="residential"||value=="living_street"||value=="unclassified") {
+		} else if (value=="secondary_link") {
+			way.type = 2;
+			way.link = true;
+		} else if (value=="tertiary") {
+			way.type = 2;
+		} else if (value=="tertiary_link") {
+			way.type = 2;
+			way.link = true;
+		} else if (value=="residential" || value=="living_street" || value=="unclassified") {
 			way.type = 1;
 		} else {
 			way.type = 0;
 		}
 	} else if (key == "sidewalk") {
+	} else if (key == "junction") {
+		QString value = atts.value("v");
+		if (value == "roundabout") {
+			way.roundabout = true;
+		}
 	} else if (key == "bridge") {
 	} else if (key == "bridge_number") {
 	} else if (key == "oneway") {
@@ -143,6 +162,6 @@ void OSMRoadsParser::createRoadEdge() {
 		}
 
 		// 道路セグメントをBGLに追加
-		GraphUtil::addEdge(*roads, sourceDesc, destDesc, way.type, way.lanes, way.oneWay);
+		GraphUtil::addEdge(*roads, sourceDesc, destDesc, way.type, way.lanes, way.oneWay, way.link, way.roundabout);
 	}
 }
