@@ -1,17 +1,18 @@
-﻿#include "RoadPreprocessor.h"
+﻿#include <iostream>
+#include <QFile>
+#include <QXmlSimpleReader>
+#include <QXmlInputSource>
+#include <common/GraphUtil.h>
+#include <common/RoadGraph.h>
+#include <common/RoadVertex.h>
+#include <common/RoadEdge.h>
+#include "RoadPreprocessor.h"
 #include "OSMRoadsParser.h"
-#include "RoadGraph.h"
-#include "RoadVertex.h"
-#include "RoadEdge.h"
-#include "GraphUtil.h"
-#include <qfile.h>
-#include <qdom.h>
-#include <iostream>
 
 RoadPreprocessor::RoadPreprocessor() {
 }
 
-void RoadPreprocessor::preprocess(QString filename, const QVector2D &lonlat, const BBox2D &range) {
+void RoadPreprocessor::preprocess(QString filename, const QVector2D &lonlat, const BBox &range) {
 	RoadGraph roads;
 
 	OSMRoadsParser parser(&roads, lonlat, range);

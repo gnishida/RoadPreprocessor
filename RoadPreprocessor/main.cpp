@@ -1,12 +1,12 @@
-﻿#include "BBox2D.h"
-#include "RoadPreprocessor.h"
-#include "RoadGraph.h"
-#include <vector>
+﻿#include <vector>
 #include <iostream>
 #include <QVector2D>
 #include <QFile>
 #include <QString>
 #include <time.h>
+#include <common/RoadGraph.h>
+#include <common/BBox.h>
+#include "RoadPreprocessor.h"
 
 using namespace std;
 
@@ -34,8 +34,13 @@ int main(int argc, char** argv) {
 	int width = atoi(argv[4]);
 	int height = atoi(argv[5]);
 
+	// 範囲をセット
+	BBox area;
+	area.addPoint(QVector2D(-width/2, -height/2));
+	area.addPoint(QVector2D(width/2, height/2));
+
 	RoadPreprocessor rp;
-	rp.preprocess(argv[1], QVector2D(longitude, latitude), BBox2D(QVector2D(-width/2, -height/2), QVector2D(width/2, height/2)));
+	rp.preprocess(argv[1], QVector2D(longitude, latitude), area);
 
 	// タイマー計測終了
 	time_t end = clock();

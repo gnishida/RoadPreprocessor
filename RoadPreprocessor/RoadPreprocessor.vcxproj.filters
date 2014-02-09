@@ -13,12 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="mylib">
+      <UniqueIdentifier>{c0597802-7338-4cde-8183-890393820ec0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="mylib\common">
+      <UniqueIdentifier>{9b60d41d-d95f-4268-9b13-f8a1894ccbd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="mylib\road">
+      <UniqueIdentifier>{1e84d208-9e97-47ab-b240-c294a0c71c89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BBox2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RoadPreprocessor.cpp">
@@ -27,88 +33,70 @@
     <ClCompile Include="OSMRoadsParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\mylib\common\BBox.cpp">
+      <Filter>mylib\common</Filter>
     </ClCompile>
-    <ClCompile Include="MapRange.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\mylib\common\GraphUtil.cpp">
+      <Filter>mylib\common</Filter>
     </ClCompile>
-    <ClCompile Include="RoadEdge.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\mylib\common\Polygon2D.cpp">
+      <Filter>mylib\common</Filter>
     </ClCompile>
-    <ClCompile Include="RoadGraph.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\mylib\common\Renderable.cpp">
+      <Filter>mylib\common</Filter>
     </ClCompile>
-    <ClCompile Include="RoadVertex.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\mylib\common\RoadEdge.cpp">
+      <Filter>mylib\common</Filter>
     </ClCompile>
-    <ClCompile Include="AbstractArea.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\mylib\common\RoadGraph.cpp">
+      <Filter>mylib\common</Filter>
     </ClCompile>
-    <ClCompile Include="AbstractForest.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\mylib\common\RoadGraphRenderer.cpp">
+      <Filter>mylib\common</Filter>
     </ClCompile>
-    <ClCompile Include="ArcArea.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\mylib\common\RoadVertex.cpp">
+      <Filter>mylib\common</Filter>
     </ClCompile>
-    <ClCompile Include="BBox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BFSForest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BFSTree.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphUtil.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\mylib\common\Util.cpp">
+      <Filter>mylib\common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BBox2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RoadPreprocessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSMRoadsParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Util.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\mylib\common\BBox.h">
+      <Filter>mylib\common</Filter>
     </ClInclude>
-    <ClInclude Include="MapRange.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\mylib\common\common.h">
+      <Filter>mylib\common</Filter>
     </ClInclude>
-    <ClInclude Include="RoadGraph.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\mylib\common\GraphUtil.h">
+      <Filter>mylib\common</Filter>
     </ClInclude>
-    <ClInclude Include="RoadVertex.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\mylib\common\Polygon2D.h">
+      <Filter>mylib\common</Filter>
     </ClInclude>
-    <ClInclude Include="RoadEdge.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\mylib\common\Renderable.h">
+      <Filter>mylib\common</Filter>
     </ClInclude>
-    <ClInclude Include="AbstractArea.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\mylib\common\RoadEdge.h">
+      <Filter>mylib\common</Filter>
     </ClInclude>
-    <ClInclude Include="AbstractForest.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\mylib\common\RoadGraph.h">
+      <Filter>mylib\common</Filter>
     </ClInclude>
-    <ClInclude Include="ArcArea.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\mylib\common\RoadGraphRenderer.h">
+      <Filter>mylib\common</Filter>
     </ClInclude>
-    <ClInclude Include="BBox.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\mylib\common\RoadVertex.h">
+      <Filter>mylib\common</Filter>
     </ClInclude>
-    <ClInclude Include="BFSForest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BFSTree.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphUtil.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\mylib\common\Util.h">
+      <Filter>mylib\common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

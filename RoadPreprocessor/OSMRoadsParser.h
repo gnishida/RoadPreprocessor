@@ -1,10 +1,9 @@
 #pragma once
 
-#include "MapRange.h"
-#include "RoadGraph.h"
+#include <QString>
 #include <QtXml/qxml.h>
-#include <qstring.h>
-#include <qvector3d.h>
+#include <QVector3D>
+#include <common/RoadGraph.h>
 
 class RoadNode;
 class RoadEdge;
@@ -30,7 +29,7 @@ private:
 	//QVector3D centerLatLon;
 	QVector2D centerLonLat;
 	QVector2D centerPos;
-	BBox2D range;
+	BBox range;
 
 	RoadGraph* roads;
 
@@ -47,7 +46,7 @@ public:
 	std::vector<RoadEdge*> edges;
 
 public:
-	OSMRoadsParser(RoadGraph *roads, const QVector2D &lonlat, const BBox2D &range);
+	OSMRoadsParser(RoadGraph *roads, const QVector2D &lonlat, const BBox &range);
 
 	bool startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &atts);
 	bool characters(const QString &ch_in);

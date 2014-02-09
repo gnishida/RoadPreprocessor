@@ -1,13 +1,13 @@
-﻿#include "OSMRoadsParser.h"
-#include "RoadVertex.h"
-#include "RoadEdge.h"
-#include "BBox2D.h"
-#include "GraphUtil.h"
-#include "Util.h"
-#include <vector>
+﻿#include <vector>
 #include <iostream>
+#include <common/Util.h>
+#include <common/GraphUtil.h>
+#include <common/RoadVertex.h>
+#include <common/RoadEdge.h>
+#include <common/BBox.h>
+#include "OSMRoadsParser.h"
 
-OSMRoadsParser::OSMRoadsParser(RoadGraph *roads, const QVector2D &lonlat, const BBox2D &range) {
+OSMRoadsParser::OSMRoadsParser(RoadGraph *roads, const QVector2D &lonlat, const BBox &range) {
 	this->roads = roads;
 	this->centerLonLat = lonlat;
 	this->centerPos = Util::projLatLonToMeter(lonlat, lonlat);
