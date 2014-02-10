@@ -71,7 +71,7 @@ void OSMRoadsParser::handleWay(const QXmlAttributes &atts) {
 	way.roundabout = false;
 	way.bridge = false;
 	way.lanes = 1;
-	way.type = 1;
+	way.type = RoadEdge::TYPE_STREET;
 	way.nds.clear();
 }
 
@@ -86,29 +86,29 @@ void OSMRoadsParser::handleTag(const QXmlAttributes &atts) {
 		QString value = atts.value("v");
 		way.isStreet = true;
 		if (value=="motorway" || value=="motorway_link" || value=="trunk") {
-			way.type = 3;
+			way.type = RoadEdge::TYPE_HIGHWAY;
 		} else if (value == "trunk_link") {
-			way.type = 3;
+			way.type = RoadEdge::TYPE_HIGHWAY;
 			way.link = true;
 		} else if (value=="primary") {
-			way.type = 2;
+			way.type = RoadEdge::TYPE_BOULEVARD;
 		} else if (value=="primary_link") {
-			way.type = 2;
+			way.type = RoadEdge::TYPE_BOULEVARD;
 			way.link = true;
 		} else if (value=="secondary") {
-			way.type = 2;
+			way.type = RoadEdge::TYPE_AVENUE;
 		} else if (value=="secondary_link") {
-			way.type = 2;
+			way.type = RoadEdge::TYPE_AVENUE;
 			way.link = true;
 		} else if (value=="tertiary") {
-			way.type = 2;
+			way.type = RoadEdge::TYPE_AVENUE;
 		} else if (value=="tertiary_link") {
-			way.type = 2;
+			way.type = RoadEdge::TYPE_AVENUE;
 			way.link = true;
 		} else if (value=="residential" || value=="living_street" || value=="unclassified") {
-			way.type = 1;
+			way.type = RoadEdge::TYPE_STREET;
 		} else {
-			way.type = 0;
+			way.type = RoadEdge::TYPE_OTHERS;
 		}
 	} else if (key == "sidewalk") {
 	} else if (key == "junction") {
