@@ -1,9 +1,9 @@
 ﻿#include <vector>
 #include <iostream>
 #include <common/Util.h>
-#include <common/GraphUtil.h>
-#include <common/RoadVertex.h>
-#include <common/RoadEdge.h>
+#include <road/GraphUtil.h>
+#include <road/RoadVertex.h>
+#include <road/RoadEdge.h>
 #include <common/BBox.h>
 #include "OSMRoadsParser.h"
 

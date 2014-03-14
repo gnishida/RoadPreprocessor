@@ -2,10 +2,10 @@
 #include <QFile>
 #include <QXmlSimpleReader>
 #include <QXmlInputSource>
-#include <common/GraphUtil.h>
-#include <common/RoadGraph.h>
-#include <common/RoadVertex.h>
-#include <common/RoadEdge.h>
+#include <road/GraphUtil.h>
+#include <road/RoadGraph.h>
+#include <road/RoadVertex.h>
+#include <road/RoadEdge.h>
 #include "RoadPreprocessor.h"
 #include "OSMRoadsParser.h"
 

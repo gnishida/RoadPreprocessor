@@ -3,7 +3,7 @@
 #include <QString>
 #include <QtXml/qxml.h>
 #include <QVector3D>
-#include <common/RoadGraph.h>
+#include <road/RoadGraph.h>
 
 class RoadNode;
 class RoadEdge;

@@ -4,7 +4,7 @@
 #include <QFile>
 #include <QString>
 #include <time.h>
-#include <common/RoadGraph.h>
+#include <road/RoadGraph.h>
 #include <common/BBox.h>
 #include "RoadPreprocessor.h"
 
