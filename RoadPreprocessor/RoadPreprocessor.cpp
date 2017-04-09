@@ -2,10 +2,10 @@
 #include <QFile>
 #include <QXmlSimpleReader>
 #include <QXmlInputSource>
-#include <road/GraphUtil.h>
-#include <road/RoadGraph.h>
-#include <road/RoadVertex.h>
-#include <road/RoadEdge.h>
+#include "road/GraphUtil.h"
+#include "road/RoadGraph.h"
+#include "road/RoadVertex.h"
+#include "road/RoadEdge.h"
 #include "RoadPreprocessor.h"
 #include "OSMRoadsParser.h"
 
@@ -24,7 +24,7 @@ void RoadPreprocessor::preprocess(QString filename, const QVector2D &lonlat, con
 	QXmlInputSource source(&file);
 	reader.parse(source);
 
-	// degreeが2の頂点は、全てエッジの一部にしちゃう。
+	// make the vertex with degree of 2 just a point on an edge
 	GraphUtil::reduce(roads);
 	GraphUtil::clean(roads);
 

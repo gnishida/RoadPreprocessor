@@ -1,10 +1,10 @@
 ﻿#include <vector>
 #include <iostream>
-#include <common/Util.h>
-#include <road/GraphUtil.h>
-#include <road/RoadVertex.h>
-#include <road/RoadEdge.h>
-#include <common/BBox.h>
+#include "common/Util.h"
+#include "road/GraphUtil.h"
+#include "road/RoadVertex.h"
+#include "road/RoadEdge.h"
+#include "common/BBox.h"
 #include "OSMRoadsParser.h"
 
 OSMRoadsParser::OSMRoadsParser(RoadGraph *roads, const QVector2D &lonlat, const BBox &range) {
@@ -53,12 +53,12 @@ void OSMRoadsParser::handleNode(const QXmlAttributes &atts) {
 	uint id = atts.value("id").toUInt();
 	QVector2D pos = Util::projLatLonToMeter(atts.value("lon").toDouble(), atts.value("lat").toDouble(), centerLonLat) - centerPos;
 
-	// マップの範囲外なら、無視する
+	// ignore the node outside the area
 	if (!range.contains(pos)) return;
 
 	idToActualId.insert(id, id);
 
-	// 頂点リストに追加
+	// add a vertex
 	vertices.insert(id, RoadVertex(pos));
 }
 
@@ -139,29 +139,29 @@ void OSMRoadsParser::createRoadEdge() {
 		uint id = way.nds[k];
 		uint next = way.nds[k + 1];
 
-		// 対象となる道路セグメントの両端の頂点がリストに登録済みであること！
+		// check if both end points are already registered
 		if (!idToActualId.contains(id)) continue;
 		if (!idToActualId.contains(next)) continue;
 
 		RoadVertexDesc sourceDesc;
-		if (idToDesc.contains(id)) {		// 既にBGLに登録済みなら、BGLから該当頂点のdescを取得
+		if (idToDesc.contains(id)) {		// obtain the vertex desc
 			sourceDesc = idToDesc[id];
-		} else {										// 未登録なら、BGLに該当頂点を追加
+		} else {							// add a vertex
 			RoadVertexPtr v = RoadVertexPtr(new RoadVertex(vertices[id].getPt()));
 			sourceDesc = GraphUtil::addVertex(*roads, v);
 			idToDesc.insert(id, sourceDesc);
 		}
 
 		RoadVertexDesc destDesc;
-		if (idToDesc.contains(next)) {	// 既にBGLに登録済みなら、BGLから該当頂点のdescを取得
+		if (idToDesc.contains(next)) {		// obtain the vertex desc
 			destDesc = idToDesc[next];
-		} else {										// 未登録なら、BGLに該当頂点を追加
+		} else {							// add a vertex
 			RoadVertexPtr v = RoadVertexPtr(new RoadVertex(vertices[next].getPt()));
 			destDesc = GraphUtil::addVertex(*roads, v);
 			idToDesc.insert(next, destDesc);
 		}
 
-		// 道路セグメントをBGLに追加
+		// add a road segment
 		GraphUtil::addEdge(*roads, sourceDesc, destDesc, way.type, way.lanes, way.oneWay, way.link, way.roundabout);
 	}
 }

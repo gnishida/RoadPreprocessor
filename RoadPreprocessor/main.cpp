@@ -4,8 +4,8 @@
 #include <QFile>
 #include <QString>
 #include <time.h>
-#include <road/RoadGraph.h>
-#include <common/BBox.h>
+#include "road/RoadGraph.h"
+#include "common/BBox.h"
 #include "RoadPreprocessor.h"
 
 using namespace std;
@@ -16,7 +16,7 @@ using namespace std;
  */
 int main(int argc, char** argv) {
 	if (argc < 6) {
-		cerr << "Usage: RoadPreprocessor <OSM file> <longitude> <latitude> <width> <height>" << endl;
+		cerr << "Usage: RoadPreprocessor <OSM file> <longitude of center> <latitude of center> <width [m]> <height [m]>" << endl;
 		return 1;
 	}
 
@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
 		return 1;
 	}
 
-	// タイマー計測開始
+	// timer start
 	time_t start = clock();
 
 	float longitude = atof(argv[2]);
@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 	int width = atoi(argv[4]);
 	int height = atoi(argv[5]);
 
-	// 範囲をセット
+	// set the area
 	BBox area;
 	area.addPoint(QVector2D(-width/2, -height/2));
 	area.addPoint(QVector2D(width/2, height/2));
@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
 	RoadPreprocessor rp;
 	rp.preprocess(argv[1], QVector2D(longitude, latitude), area);
 
-	// タイマー計測終了
+	// timer end
 	time_t end = clock();
 
 	std::cout << "Elapsed: " << (double)(end-start)/CLOCKS_PER_SEC << " [sec]" << std::endl;

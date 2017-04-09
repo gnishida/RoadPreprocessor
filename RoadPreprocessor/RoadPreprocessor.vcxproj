@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -28,23 +28,27 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -97,13 +101,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(BOOST_ROOT);$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtXml;$(CV_ROOT)\include;..\..\mylib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INCLUDEDIR);$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtXml;..\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(CV_ROOT)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>qtmaind.lib;QtGuid4.lib;QtCored4.lib;QtOpenGLd4.lib;QtXmld4.lib;opengl32.lib;glu32.lib;opencv_core249d.lib;opencv_highgui249d.lib;opencv_imgproc249d.lib;opencv_legacy249d.lib;opencv_ml249d.lib;opencv_photo249d.lib;opencv_video249d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;..\opencv\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>qtmaind.lib;Qt5Guid.lib;Qt5Cored.lib;Qt5OpenGLd.lib;Qt5Widgetsd.lib;Qt5Xmld.lib;opengl32.lib;glu32.lib;opencv_world300d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -135,46 +139,42 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(BOOST_ROOT);$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtXml;$(CV_ROOT)\include;..\..\mylib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INCLUDEDIR);$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtXml;..\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(CV_ROOT)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>qtmain.lib;QtGui4.lib;QtCore4.lib;QtOpenGL4.lib;QtXml4.lib;opengl32.lib;glu32.lib;opencv_core249.lib;opencv_highgui249.lib;opencv_imgproc249.lib;opencv_legacy249.lib;opencv_ml249.lib;opencv_photo249.lib;opencv_video249.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;..\opencv\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>qtmain.lib;Qt5Gui.lib;Qt5Core.lib;Qt5OpenGL.lib;Qt5Widgets.lib;Qt5Xml.lib;opengl32.lib;glu32.lib;opencv_world300.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\mylib\common\BBox.cpp" />
-    <ClCompile Include="..\..\mylib\common\Polygon2D.cpp" />
-    <ClCompile Include="..\..\mylib\common\Polyline2D.cpp" />
-    <ClCompile Include="..\..\mylib\common\Renderable.cpp" />
-    <ClCompile Include="..\..\mylib\common\Util.cpp" />
-    <ClCompile Include="..\..\mylib\road\GraphUtil.cpp" />
-    <ClCompile Include="..\..\mylib\road\RoadEdge.cpp" />
-    <ClCompile Include="..\..\mylib\road\RoadGraph.cpp" />
-    <ClCompile Include="..\..\mylib\road\RoadGraphRenderer.cpp" />
-    <ClCompile Include="..\..\mylib\road\RoadVertex.cpp" />
+    <ClCompile Include="common\BBox.cpp" />
+    <ClCompile Include="common\Polygon2D.cpp" />
+    <ClCompile Include="common\Polyline2D.cpp" />
+    <ClCompile Include="common\Util.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OSMRoadsParser.cpp" />
     <ClCompile Include="RoadPreprocessor.cpp" />
+    <ClCompile Include="road\GraphUtil.cpp" />
+    <ClCompile Include="road\RoadEdge.cpp" />
+    <ClCompile Include="road\RoadGraph.cpp" />
+    <ClCompile Include="road\RoadVertex.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\mylib\common\BBox.h" />
-    <ClInclude Include="..\..\mylib\common\common.h" />
-    <ClInclude Include="..\..\mylib\common\Polygon2D.h" />
-    <ClInclude Include="..\..\mylib\common\Polyline2D.h" />
-    <ClInclude Include="..\..\mylib\common\Renderable.h" />
-    <ClInclude Include="..\..\mylib\common\Util.h" />
-    <ClInclude Include="..\..\mylib\road\GraphUtil.h" />
-    <ClInclude Include="..\..\mylib\road\RoadEdge.h" />
-    <ClInclude Include="..\..\mylib\road\RoadGraph.h" />
-    <ClInclude Include="..\..\mylib\road\RoadGraphRenderer.h" />
-    <ClInclude Include="..\..\mylib\road\RoadVertex.h" />
+    <ClInclude Include="common\BBox.h" />
+    <ClInclude Include="common\common.h" />
+    <ClInclude Include="common\Polygon2D.h" />
+    <ClInclude Include="common\Polyline2D.h" />
+    <ClInclude Include="common\Util.h" />
     <ClInclude Include="OSMRoadsParser.h" />
     <ClInclude Include="RoadPreprocessor.h" />
+    <ClInclude Include="road\GraphUtil.h" />
+    <ClInclude Include="road\RoadEdge.h" />
+    <ClInclude Include="road\RoadGraph.h" />
+    <ClInclude Include="road\RoadVertex.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

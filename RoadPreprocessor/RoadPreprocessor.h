@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <QString>
-#include <common/BBox.h>
+#include "common/BBox.h"
 
 class RoadGraph;
 
