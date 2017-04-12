@@ -1,11 +1,3 @@
-﻿■ Road Preprocessor の使い方
+﻿How to use this tool?
 
-本ツールの使い方
-> RoadPreprocessor <OSM file> <longitude lagtitude file> > <new OSM file>
-※ 新しいOSMファイルを標準出力に出力するので、「>」を使って保存して下さい。
-
-本ツールは、OSMファイルを読込み、指定された経度/緯度の範囲の道路データのみを抽出して、標準出力にOSMフォーマットで出力します。
-出力されたファイルは、Road Style Extractorなどのツールで解析することができます。オリジナルのOSMファイルと違い、不要なデータを
-削除した分、ファイルサイズが小さくなっているため、以後の解析作業を効率的に行うことができます。
-
-なお、本ツールでは、重なった道路の削除処理などは行っていません。将来的に、これらの改善を行う予定です。
+> RoadPreprocessor <OSM file> <longitude of center> latitude of center> <width [m]> <height [m]>
