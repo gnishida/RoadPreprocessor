@@ -950,7 +950,7 @@ void GraphUtil::saveRoads(RoadGraph& roads, const QString& filename) {
 	int nVertices = boost::num_vertices(roads.graph);
 	fwrite(&nVertices, sizeof(int), 1, fp);
 
-	// 各頂点につき、ID、X座標、Y座標を出力する
+	// write vertices
 	RoadVertexIter vi, vend;
 	for (boost::tie(vi, vend) = boost::vertices(roads.graph); vi != vend; ++vi) {
 		RoadVertexPtr v = roads.graph[*vi];
@@ -966,7 +966,7 @@ void GraphUtil::saveRoads(RoadGraph& roads, const QString& filename) {
 	int nEdges = boost::num_edges(roads.graph);
 	fwrite(&nEdges, sizeof(int), 1, fp);
 
-	// 各エッジにつき、２つの頂点の各ID、道路タイプ、レーン数、一方通行か、ポリラインを構成するポイント数、各ポイントのX座標とY座標を出力する
+	// write edges
 	RoadEdgeIter ei, eend;
 	for (boost::tie(ei, eend) = boost::edges(roads.graph); ei != eend; ++ei) {
 		RoadEdgePtr edge = roads.graph[*ei];

@@ -50,7 +50,7 @@ bool OSMRoadsParser::endElement(const QString& namespaceURI, const QString& loca
 }
 
 void OSMRoadsParser::handleNode(const QXmlAttributes &atts) {
-	uint id = atts.value("id").toUInt();
+	unsigned long long id = atts.value("id").toULongLong();
 	QVector2D pos = Util::projLatLonToMeter(atts.value("lon").toDouble(), atts.value("lat").toDouble(), centerLonLat) - centerPos;
 
 	// ignore the node outside the area
@@ -63,7 +63,7 @@ void OSMRoadsParser::handleNode(const QXmlAttributes &atts) {
 }
 
 void OSMRoadsParser::handleWay(const QXmlAttributes &atts) {
-	way.way_id = atts.value("id").toUInt();
+	way.way_id = atts.value("id").toULongLong();
 
 	way.isStreet = false;
 	way.oneWay = false;
@@ -76,7 +76,8 @@ void OSMRoadsParser::handleWay(const QXmlAttributes &atts) {
 }
 
 void OSMRoadsParser::handleNd(const QXmlAttributes &atts) {
-	uint ref = atts.value("ref").toUInt();
+	QString hoge = atts.value("ref");
+	unsigned long long ref = atts.value("ref").toULongLong();
 	way.nds.push_back(ref);
 }
 
@@ -136,8 +137,8 @@ void OSMRoadsParser::createRoadEdge() {
 	if (!way.isStreet || way.type == 0) return;
 
 	for (int k = 0; k < way.nds.size() - 1; k++) {
-		uint id = way.nds[k];
-		uint next = way.nds[k + 1];
+		unsigned long long id = way.nds[k];
+		unsigned long long next = way.nds[k + 1];
 
 		// check if both end points are already registered
 		if (!idToActualId.contains(id)) continue;

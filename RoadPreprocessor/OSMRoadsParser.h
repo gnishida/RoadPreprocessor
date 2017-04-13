@@ -10,7 +10,7 @@ class RoadEdge;
 
 typedef struct {
 	QString parentNodeName;
-	uint way_id;
+	unsigned long long way_id;
 	bool isStreet;
 	bool oneWay;
 	bool link;
@@ -18,7 +18,7 @@ typedef struct {
 	bool bridge;
 	uint lanes;
 	uint type;
-	std::vector<uint> nds;
+	std::vector<unsigned long long> nds;
 } Way;
 
 class OSMRoadsParser : public QXmlDefaultHandler {
@@ -34,13 +34,13 @@ private:
 	RoadGraph* roads;
 
 	/** temporary node list */
-	QMap<uint, RoadVertexDesc> idToDesc;
-	QMap<uint, uint> idToActualId;
-	QMap<uint, RoadVertex> vertices;
+	QMap<unsigned long long, RoadVertexDesc> idToDesc;
+	QMap<unsigned long long, unsigned long long> idToActualId;
+	QMap<unsigned long long, RoadVertex> vertices;
 
 public:
 	/** node list to be output to XML file */
-	QMap<uint, RoadNode*> nodes;
+	QMap<unsigned long long, RoadNode*> nodes;
 
 	/** edge list to be output to XML file */
 	std::vector<RoadEdge*> edges;
